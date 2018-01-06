@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "Tank.h"
+//#include "Tank.h"
 #include "TankPlayerController.generated.h"
+
+class ATank;
 
 /**
  * 
@@ -28,13 +30,15 @@ private:
 	// Return an OUT parameter, true if hit landscape.
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float CrosshairXLocation = 0.5f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float CrosshairYLocation = 0.3333f;
-	UPROPERTY(EditAnywhere)
+
+	UPROPERTY(EditDefaultsOnly)
 		float LineTraceRange = 1000000.0f;
+
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 };
