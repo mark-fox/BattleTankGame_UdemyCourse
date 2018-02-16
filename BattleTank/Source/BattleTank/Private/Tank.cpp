@@ -2,7 +2,7 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
-//#include "TankMovementComponent.h"
+#include "TankMovementComponent.h"
 #include "Engine/World.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
@@ -63,16 +63,19 @@ void ATank::Fire() {
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
 	if (Barrel && isReloaded) {
-
-		// Spawn a projectile at the socket location on the barrel.
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-			ProjectileBlueprint,
-			Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile"))
-			);
-
-		Projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
+		if (ProjectileBlueprint) {
+			// Spawn a projectile at the socket location on the barrel.
+			auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+				ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("Projectile")),
+				Barrel->GetSocketRotation(FName("Projectile"))
+				);
+			Projectile->LaunchProjectile(LaunchSpeed);
+			LastFireTime = FPlatformTime::Seconds();
+		}
+		else {
+			UE_LOG(LogTemp, Warning, TEXT("Need to assign Projectile_BP in blueprint settings."))
+		}
 	}
 }
 
