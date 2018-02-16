@@ -9,13 +9,13 @@
 void ATankPlayerController::BeginPlay() {
 	Super::BeginPlay();
 
-	auto ControlledTank = GetControlledTank();
+	/*auto ControlledTank = GetControlledTank();
 	if (!ControlledTank) {
 		UE_LOG(LogTemp, Warning, TEXT("playercontroller not possessing a tank"));
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("playercontroller possessing %s"), *(ControlledTank->GetName()));
-	}
+	}*/
 }
 
 
@@ -52,7 +52,7 @@ void ATankPlayerController::AimTowardsCrosshair() {
 // Get world location of linetrace through crosshair.
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
 {
-	// Finds the crosshair position.
+	// Finds the crosshair position in pixel coordinates.
 	int32 ViewportSizeX, ViewportSizeY;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	auto ScreenLocation = FVector2D(ViewportSizeX * CrosshairXLocation, ViewportSizeY * CrosshairYLocation);
