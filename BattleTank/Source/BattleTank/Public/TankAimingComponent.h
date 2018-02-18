@@ -47,7 +47,7 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetRoundsLeft() const;
+		int GetRoundsLeft() const;
 
 protected:
 	// Called when the game starts
