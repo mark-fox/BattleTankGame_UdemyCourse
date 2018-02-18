@@ -60,12 +60,15 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 		FiringState = EFiringState::OutOfAmmo;
 	}
 	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
+		//UE_LOG(LogTemp, Warning, TEXT("tank reloading!"))
 		FiringState = EFiringState::Reloading;
 	}
 	else if (IsBarrelMoving()) {
+		//UE_LOG(LogTemp, Warning, TEXT("tank aiming!"))
 		FiringState = EFiringState::Aiming;
 	}
 	else {
+		//UE_LOG(LogTemp, Warning, TEXT("tank locked!"))
 		FiringState = EFiringState::Locked;
 	}
 }
@@ -75,7 +78,7 @@ bool UTankAimingComponent::IsBarrelMoving() {
 	if (!ensure(Barrel)) { return false; }
 
 	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01);
+	return !BarrelForward.Equals(AimDirection, 0.1);
 }
 
 
@@ -110,7 +113,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation) {
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 
-	if (!ensure(Barrel && Turret)) { return; }
+	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 
 	// Work out difference between current barrel rotation and AimDirection.
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
@@ -153,11 +156,10 @@ void UTankAimingComponent::Fire() {
 
 EFiringState UTankAimingComponent::GetFiringState() const
 {
-
 	return FiringState;
 }
 
-int UTankAimingComponent::GetRoundsLeft() const
+int32 UTankAimingComponent::GetRoundsLeft() const
 {
 	return RoundsLeft;
 }
