@@ -7,6 +7,10 @@
 //#include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
+
+
 // Forward Declarations:
 //class UTankBarrel;
 //class UTankAimingComponent;
@@ -26,6 +30,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercent() const;
 
+	FTankDelegate OnDeath;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,5 +45,5 @@ private:
 	int32 StartingHealth = 100;
 
 	UPROPERTY(VisibleAnywhere, Category = "Health")
-	int32 CurrentHealth = StartingHealth;
+	int32 CurrentHealth; // Initialised in Begin Play.
 };
