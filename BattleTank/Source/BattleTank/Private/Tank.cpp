@@ -17,6 +17,11 @@ ATank::ATank()
 
 
 
+float ATank::GetHealthPercent() const
+{
+	return (float)CurrentHealth / (float)StartingHealth;
+}
+
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
@@ -35,6 +40,11 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEv
 	// Convert float to int to avoid comparing float to 0.
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
 	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
+
+	CurrentHealth -= DamageToApply;
+	if (CurrentHealth <= 0) {
+		// dead
+	}
 
 	return DamageToApply;
 }
