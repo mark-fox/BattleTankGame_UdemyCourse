@@ -13,33 +13,14 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
-	// No need to protect pointers as added at construction.
-	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
-
-
-
-//void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
-//{
-//	TankAimingComponent->SetBarrelReference(BarrelToSet);
-//	Barrel = BarrelToSet;
-//}
-//
-//
-//
-//void ATank::SetTurretReference(UTankTurret* TurretToSet) {
-//	TankAimingComponent->SetTurretReference(TurretToSet);
-//}
 
 
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	//TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 //// Called every frame
@@ -50,45 +31,10 @@ void ATank::BeginPlay()
 //}
 
 
+float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor* DamageCauser) {
+	// Convert float to int to avoid comparing float to 0.
+	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
+	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
 
-//void ATank::AimAt(FVector HitLocation) {
-//	if (!ensure(TankAimingComponent)) { return; }
-//	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-//}
-
-
-
-
-//void ATank::Fire() {
-//
-//	if (!ensure(Barrel)) { return; }
-//
-//	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-//
-//	if (isReloaded) {
-//		if (ProjectileBlueprint) {
-//			// Spawn a projectile at the socket location on the barrel.
-//			auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-//				ProjectileBlueprint,
-//				Barrel->GetSocketLocation(FName("Projectile")),
-//				Barrel->GetSocketRotation(FName("Projectile"))
-//				);
-//			Projectile->LaunchProjectile(LaunchSpeed);
-//			LastFireTime = FPlatformTime::Seconds();
-//		}
-//		else {
-//			UE_LOG(LogTemp, Warning, TEXT("Need to assign Projectile_BP in blueprint settings."))
-//		}
-//	}
-//}
-
-
-
-
-//// Called to bind functionality to input
-//void ATank::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
-//{
-//	Super::SetupPlayerInputComponent(PlayerInputComponent);
-//
-//}
-
+	return DamageToApply;
+}
